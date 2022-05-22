@@ -1,4 +1,4 @@
-from brownie import accounts, Blockword, network, Contract
+from brownie import accounts, Blockword, network, config
 
 def get_account():
     if network.show_active() == "development":
@@ -8,5 +8,6 @@ def get_account():
 
 def main():
     account = get_account()
-    print(account)
-    blockword = Blockword.deploy({'from': account}, publish_source=True)
+    print(f"Account: {account}")
+    publish_source = False if network.show_active() == "development" else True
+    blockword = Blockword.deploy(config["price"], {'from': account}, publish_source=publish_source)
