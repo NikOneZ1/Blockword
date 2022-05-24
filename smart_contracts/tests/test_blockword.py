@@ -1,6 +1,10 @@
-from smart_contracts.tests.conftest import deploy_contract
-
-
-def test_deploy(deploy_contract):
-    print(type(deploy_contract))
-    assert 1
+def test_set_account(deployed_blockword):
+    data = {
+        '_account_name': 'Account',
+        '_login_hash': 'user_hash',
+        '_password_hash': '12345_hash'
+        }
+    try:
+        deployed_blockword.set_account(**data)
+    except AttributeError:
+        assert True
