@@ -35,10 +35,7 @@ jobs:
       run: npm install -g ganache-cli
     - name: Install dependencies
       run: poetry install
-    - name: Change directory to smart_contracts
-      run: cd smart_contracts
-    - run: pwd
-    - run: ls
     - name: Test smart contract
+      working-directory: ./smart_contracts
       run: poetry run brownie test
     - run: cd ..
