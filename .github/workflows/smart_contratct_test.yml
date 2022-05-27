@@ -36,5 +36,7 @@ jobs:
       run: npm install -g ganache-cli
     - name: Install dependencies
       run: poetry install
+    - run: cd smart_contracts
     - name: Test smart contract
       run: poetry run brownie test
+    - run: cd ..
