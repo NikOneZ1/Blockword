@@ -38,6 +38,7 @@ jobs:
     - name: Change directory to smart_contracts
       run: cd smart_contracts
     - run: pwd
+    - run: ls
     - name: Test smart contract
       run: poetry run brownie test
     - run: cd ..
