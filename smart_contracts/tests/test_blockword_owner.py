@@ -41,4 +41,22 @@ def test_owner_new_price(deployed_blockword, owner):
     tx.wait(1)
     new_price_in_contract = deployed_blockword.get_price()
     assert new_price_in_contract == updated_price
-    
+
+def test_not_owner_transfer_ownership(deployed_blockword, accounts):
+    account = accounts[1]
+    new_owner = accounts[2]
+    try:
+        tx = deployed_blockword.transfer_ownership(new_owner, {'from': account})
+        tx.wait(1)
+    except exceptions.VirtualMachineError:
+        assert True
+    else:
+        assert False
+
+def test_owner_transfer_ownership(deployed_blockword, accounts, owner):
+    new_owner = accounts[1]
+    tx = deployed_blockword.transfer_ownership(new_owner, {'from': owner})
+    tx.wait(1)
+    tx = deployed_blockword.withdraw({'from': new_owner})
+    tx.wait(1)
+    assert True
