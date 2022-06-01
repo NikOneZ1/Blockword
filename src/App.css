@@ -34,3 +34,7 @@
   left: calc(50% - 287px/2 - 0.5px);
   bottom: 41px;
 }
+
+a:hover {
+  opacity: 0.8;
+}
