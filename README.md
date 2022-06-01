@@ -28,3 +28,7 @@ To deploy smart contract to other testnet you have to create brownie account
 ```
 poetry run brownie accounts new blockword-account
 ```
+To test smart contract you can run this command
+```
+poetry run brownie test
+```
