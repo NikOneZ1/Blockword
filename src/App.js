@@ -1,12 +1,11 @@
 import './App.css';
-import Footer from './components/footer';
-import Header from './components/header';
+import Home from './screens/Home.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
     <div className="App">
-      <Header />
-      <Footer />
+      <Home />
     </div>
   );
 }
