@@ -23,8 +23,14 @@ const MainHome = () => {
                     <p className='main-page-text'>and news about the project</p>
                 </div>
                 <div className="col-md-6 col-sm-12 text-align-center text-center" style={{display: "inline-block"}}>
-                    <div className="email-form" style={{display: "inline-block"}}>
-                        <p className='email-form-text'>EMAIL</p>
+                    <div className="align-items-center email-form text-align-center text-center" style={{display: "inline-block"}}>
+                        <div className='email-form-div'>
+                            <p className='email-form-text'>EMAIL</p>
+                            <form>
+                                <input className='email-form-input' type="text" name="email"/>
+                                <button className='email-form-button'>Subscribe</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
