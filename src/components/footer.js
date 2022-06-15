@@ -13,7 +13,6 @@ const Footer = () => {
                 </div>
                 <img src={blockwordWhiteLogo} style={{height: "70px"}} alt="Blockword" className='col-md-2'/>
                 <div className='col-md-5'>
-                    <p>{process.env.REACT_APP_API_KEY}</p>
                     <a href="mailto:nikita.verba18052004@gmail.com" className='float-end text-decoration-none header-text'>Contact us</a>
                     <a href="https://nikone.notion.site/Lightpaper-ea59c0859ded4337bde4203b8445e1a3" target="_blank" rel='noreferrer' className='float-end text-decoration-none header-text' style={{marginRight: "20px"}}>Lightpaper</a>
                 </div>

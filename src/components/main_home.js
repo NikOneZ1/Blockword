@@ -1,7 +1,23 @@
-import React from 'react';
+import React, {useState} from 'react';
 import mainpage_img from '../media/mainpage_img.svg';
 
 const MainHome = () => {
+    const [email, setEmail] = useState('');
+
+    const validateEmail = email => {
+        let re = /\S+@\S+\.\S+/;
+        return re.test(email);
+    }
+
+    const Submit = event => {
+        event.preventDefault();
+        console.log(email);
+        if(validateEmail(email)){
+            console.log('valid email');
+        }
+        document.getElementById('email').value = '';
+    }
+
     return (
         <div className="container-fluid">
             <div className='row align-items-center'>
@@ -26,9 +42,9 @@ const MainHome = () => {
                     <div className="align-items-center email-form text-align-center text-center" style={{display: "inline-block"}}>
                         <div className='email-form-div'>
                             <p className='email-form-text'>EMAIL</p>
-                            <form>
-                                <input className='email-form-input' type="text" name="email"/>
-                                <button className='email-form-button'>Subscribe</button>
+                            <form onSubmit={Submit}>
+                                <input className='email-form-input' id="email" type="text" name="email" onChange={(e) => setEmail(e.target.value)}/>
+                                <button className='email-form-button' type='submit'>Subscribe</button>
                             </form>
                         </div>
                     </div>

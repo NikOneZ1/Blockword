@@ -16,7 +16,12 @@
   opacity: 0.8;
 }
 
-.header-button:hover {
+/* Enable when app will be released */
+/*.header-button:hover {
+  opacity: 0.8;
+}*/
+/* Disable when app will be released */
+.header-button {
   opacity: 0.8;
 }
 

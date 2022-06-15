@@ -11,7 +11,7 @@ const Header = () => {
                 </div>    
                 <img src={blockwordWhiteLogo} style={{height: "70px"}} alt="Blockword" className='col-md-2'/>
                 <div className='col-md-5'>
-                    <button className='header-button float-end'>Open app</button>
+                    <button className='header-button float-end' disabled>Open app</button>
                 </div>
             </header>
         </div>
