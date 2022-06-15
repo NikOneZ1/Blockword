@@ -32,3 +32,13 @@ To test smart contract you can run this command
 ```
 poetry run brownie test
 ```
+
+## How to run Blockword fronted
+Install node dependencies (you must have npm installed)
+```
+npm install
+```
+Run frontend
+```
+npm start
+```
