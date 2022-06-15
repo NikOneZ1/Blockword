@@ -5,13 +5,20 @@ import twitterLogo from '../media/twitterLogo.svg';
 
 const Footer = () => {
     return(
-        <footer className="footer">
-            <a href="https://google.com" target="_blank" rel='noreferrer'><img src={twitterLogo} className="footer-logo" alt="twitter logo" style={{top: "50%", left: "5%", transform: "translate(-0%, -50%)"}}/></a>
-            <a href="https://github.com/NikOneZ1/Blockword" target="_blank" rel='noreferrer'><img src={githubLogo} alt="github logo" className='footer-logo' style={{top: "50%", left: "10%", transform: "translate(-0%, -50%)"}}/></a>
-            <img src={blockwordWhiteLogo} alt="logo" className='blockword-logo-footer'/>
-            <a href="mailto:nikita.verba18052004@gmail.com"><p style={{top: "50%", right: "5%", transform: "translate(-0%, -50%)"}} className='footer-text'>Contact us</p></a>
-            <a href="https://nikone.notion.site/Lightpaper-ea59c0859ded4337bde4203b8445e1a3" target="_blank" rel='noreferrer'><p style={{top: "50%", right: "17%", transform: "translate(-0%, -50%)"}} className='footer-text'>Lightpaper</p></a>
-        </footer>
+        <div className='container-fluid footer mt-3' style={{padding: "0px"}}>
+            <div className="p-3 d-flex flex-wrap align-items-center justify-content-beetween" style={{backgroundColor: "black"}}>
+                <div className='col-md-5'>
+                    <a href="https://google.com" target="_blank" rel='noreferrer'><img src={twitterLogo} alt="twitter logo" style={{width: "50px"}}/></a>
+                    <a href="https://github.com/NikOneZ1/Blockword" target="_blank" rel='noreferrer'><img src={githubLogo} alt="github logo" style={{width: "50px", marginLeft: "20px"}}/></a>
+                </div>
+                <img src={blockwordWhiteLogo} style={{height: "70px"}} alt="Blockword" className='col-md-2'/>
+                <div className='col-md-5'>
+                    <p>{process.env.REACT_APP_API_KEY}</p>
+                    <a href="mailto:nikita.verba18052004@gmail.com" className='float-end text-decoration-none header-text'>Contact us</a>
+                    <a href="https://nikone.notion.site/Lightpaper-ea59c0859ded4337bde4203b8445e1a3" target="_blank" rel='noreferrer' className='float-end text-decoration-none header-text' style={{marginRight: "20px"}}>Lightpaper</a>
+                </div>
+            </div>
+        </div>
     )
 }
 
