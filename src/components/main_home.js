@@ -11,9 +11,19 @@ const MainHome = () => {
 
     const Submit = event => {
         event.preventDefault();
-        console.log(email);
         if(validateEmail(email)){
-            console.log('valid email');
+            fetch(process.env.REACT_APP_DB_URL, {
+                method: 'POST',
+                headers: {
+                    'cache-control': 'no-cache',
+                    'x-apikey': process.env.REACT_APP_DB_API_KEY,
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    date: new Date()
+                })
+            });   
         }
         document.getElementById('email').value = '';
     }
