@@ -16,6 +16,10 @@
   opacity: 0.8;
 }
 
+a:hover {
+  opacity: 0.8;
+}
+
 .button-blockword:hover {
   opacity: 0.8;
 }
