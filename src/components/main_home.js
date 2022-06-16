@@ -54,7 +54,7 @@ const MainHome = () => {
                             <p className='email-form-text'>EMAIL</p>
                             <form onSubmit={Submit}>
                                 <input className='email-form-input' id="email" type="text" name="email" onChange={(e) => setEmail(e.target.value)}/>
-                                <button className='email-form-button' type='submit'>Subscribe</button>
+                                <button className='email-form-button button-blockword' type='submit'>Subscribe</button>
                             </form>
                         </div>
                     </div>
