@@ -38,6 +38,11 @@ Install node dependencies (you must have npm installed)
 ```
 npm install
 ```
+Set env variables in .env file in root folder
+```
+REACT_APP_DB_API_KEY=<your_api_key> # restdb.io api key
+REACT_APP_DB_URL=<your_db_url> # restdb.io url
+```
 Run frontend
 ```
 npm start
