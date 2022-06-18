@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import blockwordWhiteLogo from '../media/blockwordWhiteLogo.svg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -11,7 +12,7 @@ const Header = () => {
                 </div>    
                 <img src={blockwordWhiteLogo} style={{height: "70px"}} alt="Blockword" className='col-md-2'/>
                 <div className='col-md-5'>
-                    <button className='header-button float-end' disabled>Open app</button>
+                    <Link to={"app"}><button className='header-button float-end' disabled>Open app</button></Link>
                 </div>
             </header>
         </div>
