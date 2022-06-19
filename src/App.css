@@ -4,6 +4,15 @@ html{
   font-family: 'Source Sans Pro';
 }
 
+.search-field {
+  background: #FFFFFF;
+  border-radius: 25px;
+  height: 40px;
+  font-family: 'Source Sans Pro';
+  text-align: center;
+  font-size: 24px;
+}
+
 .header-text {
   color: #ffffff;
   font-weight: 600;
