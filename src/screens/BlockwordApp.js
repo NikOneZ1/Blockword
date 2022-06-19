@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Web3 from 'web3';
+import Footer from '../components/footer';
+import AppHeader from '../components/app_header';
 
 const BlockwordApp = () => {
     const [account, setAccount] = useState();
@@ -51,9 +53,13 @@ const BlockwordApp = () => {
     }
   
     return (
-        <div>
+        <div className="container-fluid d-flex flex-column min-vh-100" style={{padding: "0px"}}>
+            <AppHeader />
             <button onClick={connect_wallet}>Connect MetaMask Wallet</button>
             Your account is: {account}
+            <div className='mt-auto'>
+                <Footer />
+            </div>
         </div>
    )
 }
