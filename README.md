@@ -42,6 +42,8 @@ Set env variables in .env file in root folder
 ```
 REACT_APP_DB_API_KEY=<your_api_key> # restdb.io api key
 REACT_APP_DB_URL=<your_db_url> # restdb.io url
+REACT_APP_SMART_CONTRACT_ADDRESS=<your_smart_contract_address>
+REACT_APP_ABI_URL=<your_abi_url> # url to your smart contract abi api
 ```
 Run frontend
 ```
