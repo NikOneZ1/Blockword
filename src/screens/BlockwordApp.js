@@ -4,6 +4,7 @@ import Web3 from 'web3';
 const BlockwordApp = () => {
     const [account, setAccount] = useState();
     const [blockword_contract, setBlockwordContract] = useState();
+    const [price, setPrice] = useState();
 
     useEffect(() => {
         const checkConnection = async () => {
@@ -20,6 +21,12 @@ const BlockwordApp = () => {
             web3.eth.getAccounts()
                 .then(async (addr) => {
                     setAccount(addr[0]);
+                    let result = await fetch(process.env.REACT_APP_ABI_URL);
+                    let abi = await result.json();
+                    let blockword = new web3.eth.Contract(JSON.parse(abi.result), process.env.REACT_APP_SMART_CONTRACT_ADDRESS);
+                    blockword.methods.get_accounts(addr[0]).call().then(result => console.log(result));
+                    setBlockwordContract(blockword);
+                    blockword.methods.get_price().call().then(result => setPrice(result));
                 });
         };
         checkConnection();
@@ -30,12 +37,17 @@ const BlockwordApp = () => {
         const accounts = await web3.eth.requestAccounts();
         let result = await fetch(process.env.REACT_APP_ABI_URL);
         let abi = await result.json();
-        console.log(abi.result);
-        console.log(process.env.REACT_APP_SMART_CONTRACT_ADDRESS);
         let blockword = new web3.eth.Contract(JSON.parse(abi.result), process.env.REACT_APP_SMART_CONTRACT_ADDRESS);
-        console.log(blockword);
+        blockword.methods.get_accounts(accounts[0]).call().then(result => console.log(result));
         setBlockwordContract(blockword);
         setAccount(accounts[0]);
+        blockword.methods.pay_set_account("account_name", "login_hash", "password_hash").send({
+            from: accounts[0],
+            value: price
+        }).on("receipt", function(receipt){
+            console.log(receipt);
+            blockword.methods.get_accounts(accounts[0]).call().then(result => console.log(result));
+        });
     }
   
     return (
