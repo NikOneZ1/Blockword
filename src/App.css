@@ -4,6 +4,15 @@ html{
   font-family: 'Source Sans Pro';
 }
 
+/* Remove on app release*/
+.header-button {
+  opacity: 0.8;
+}
+.header-button:active {
+  transform: scale(1);
+}
+/***********************/
+
 .search-field {
   background: #FFFFFF;
   border-radius: 25px;
@@ -29,21 +38,20 @@ a:hover {
   opacity: 0.8;
 }
 
-.button-blockword:hover {
-  opacity: 0.8;
-}
-
 .button-blockword:active {
   transform: scale(0.95);
 }
 
-/* Enable when app will be released */
-/*.header-button:hover {
-  opacity: 0.8;
-}*/
-/* Disable when app will be released */
-.header-button {
-  opacity: 0.8;
+.app-header-button {
+  width: 220px;
+  height: 50px;
+  background: #FFFFFF;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 15px;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 30px;
+  color: black;
 }
 
 .header-button {
@@ -53,7 +61,7 @@ a:hover {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 15px;
   font-weight: 400;
-  font-size: 24px;
+  font-size: 20px;
   line-height: 30px;
   color: black;
 }
@@ -122,4 +130,72 @@ a:hover {
   font-weight: 400;
   font-size: 24px;
   line-height: 30px;
+}
+
+.account {
+  background: #FFFFFF;
+  border: 2px solid #000000;
+  border-radius: 25px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  height: 260px;
+}
+
+.account-name {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 68px;
+  margin-bottom: 20px;
+}
+
+.account-text {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 160.88%;
+  margin-left: 20px;
+  margin-bottom: 10px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.account-button {
+  background: #000000;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 15px;
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 42px;
+  color: #FFFFFF;
+  white-space: nowrap;
+  margin-bottom: 10px;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+button:disabled {
+  opacity: 0.8;
+}
+
+.account-add {
+  margin-bottom: 20px;
+  height: 260px;
+  background: #FFFFFF;
+  border: 2px dashed #000000;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.account-add:hover {
+  opacity: 0.8;
 }

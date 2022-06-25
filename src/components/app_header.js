@@ -14,7 +14,7 @@ const AppHeader = (props) => {
                     <input type="text" className='col-md-7 search-field' placeholder='Search account' onChange={(e) => search(e.target.value)}/>
                 </div>
                 <div className='col-md-2'>
-                    <button className='header-button float-end' disabled>Open app</button>
+                    <button id='connect-wallet-button' className='app-header-button float-end'>Connect to metamask</button>
                 </div>
             </header>
         </div>
