@@ -118,6 +118,14 @@ const BlockwordApp = () => {
         }
     }
 
+    // TODO implement update function
+
+    // TODO implement delete function
+
+    // TODO implement search function
+
+    // TODO implement encryption and decryption functions
+
     const createPassword = async () => {
         let result = await blockword_contract.methods.pay_set_account(createPasswordName, createPasswordLogin, createPasswordPassword).send({ from: account, value: price })
         .on("receipt", function(receipt) {
@@ -127,7 +135,9 @@ const BlockwordApp = () => {
           console.log(error);
         });
         setShowAddModal(false);
-        //show messages on processing
+        // TODO encrypt password before creating
+        // TODO add form validation
+        // TODO show messages on processing
     }
   
     return (
