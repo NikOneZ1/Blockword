@@ -11,6 +11,10 @@ const BlockwordApp = () => {
     const [price, setPrice] = useState();
     const [passwordAccounts, setPasswordAccounts] = useState([]);
     const [network, setNetwork] = useState();
+    const [showAddModal, setShowAddModal] = useState(false);
+    const [createPasswordName, setCreatePasswordName] = useState('');
+    const [createPasswordLogin, setCreatePasswordLogin] = useState('');
+    const [createPasswordPassword, setCreatePasswordPassword] = useState('');
 
     useEffect(() => {
         const onClickInstall = () => {
@@ -20,6 +24,16 @@ const BlockwordApp = () => {
             const onboarding = new MetaMaskOnboarding('http://localhost:9010');
             onboarding.startOnboarding();
         };
+
+        const filterAccounts = accounts => {
+            accounts = [...accounts];
+            for( var i = 0; i < accounts.length; i++){ 
+                if (accounts[i][0] === '' && accounts[i][1] === '') {
+                    accounts.splice(i, 1);
+                }
+                setPasswordAccounts(accounts);
+            }
+        }
 
         const checkMetamask = () => {
             let onboardButton = document.getElementById('connect-wallet-button');
@@ -41,7 +55,7 @@ const BlockwordApp = () => {
                                 let result = await fetch(process.env.REACT_APP_ABI_URL);
                                 let abi = await result.json();
                                 let blockword = new web3.eth.Contract(JSON.parse(abi.result), process.env.REACT_APP_SMART_CONTRACT_ADDRESS);
-                                blockword.methods.get_accounts(addr[0]).call().then(result => setPasswordAccounts(result));
+                                blockword.methods.get_accounts(addr[0]).call().then(result => filterAccounts(result));
                                 blockword.methods.get_price().call().then(result => setPrice(result));
                                 setBlockwordContract(blockword);
                             } else {
@@ -94,11 +108,32 @@ const BlockwordApp = () => {
             params: [{ chainId: targetNetworkId }],
         });
     }
+
+    const showHideAddModal = () => {
+        setShowAddModal(!showAddModal);
+        if(!showAddModal) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "visible";
+        }
+    }
+
+    const createPassword = async () => {
+        let result = await blockword_contract.methods.pay_set_account(createPasswordName, createPasswordLogin, createPasswordPassword).send({ from: account, value: price })
+        .on("receipt", function(receipt) {
+          console.log(receipt);
+        })
+        .on("error", function(error) {
+          console.log(error);
+        });
+        setShowAddModal(false);
+        //show messages on processing
+    }
   
     return (
         <div className="container-fluid d-flex flex-column min-vh-100" style={{padding: "0px"}}>
             <AppHeader/>
-            <div className='container'>
+            <div className='container' id='app-page'>
                 <div className='row mt-3'>
                     <div className='col-md-6'>
                         {passwordAccounts.slice(0, Math.ceil(passwordAccounts.length/2)).map((account, index) => 
@@ -113,7 +148,7 @@ const BlockwordApp = () => {
                             </div>
                         )}
                         {passwordAccounts.length % 2 === 0 && 
-                        <div className='account-add col-md-7 ms-auto d-flex align-items-center justify-content-center'>
+                        <div onClick={showHideAddModal} className='account-add col-md-7 ms-auto d-flex align-items-center justify-content-center'>
                             <img src={plus} alt="Add pasword"></img>
                         </div>}
                     </div>
@@ -129,7 +164,29 @@ const BlockwordApp = () => {
                                 </div>
                             </div>
                         )}
+                        {passwordAccounts.length % 2 !== 0 && 
+                        <div onClick={showHideAddModal} className='account-add col-md-7 d-flex align-items-center justify-content-center'>
+                            <img src={plus} alt="Add pasword"></img>
+                        </div>}
                     </div>
+                </div>
+            </div>
+            <div className='overlay' onClick={showHideAddModal} style={showAddModal === true ?
+                {display: "block"} :
+                {display: "none"}
+            }></div>
+            <div className={showAddModal ===true ? 'add-modal col-md-4 d-flex justify-content-center' : ''} id="add-modal" style={showAddModal === true ?
+                {display: "block"} :
+                {display: "none"}
+            }>
+                <div className='col-md-10 mt-5 mb-5 text-center'>
+                    <p className='modal-text'>NAME</p>
+                    <input className='modal-input col-md-10 text-center' id="name" type="text" name="name" onChange={(e) => setCreatePasswordName(e.target.value)}/>
+                    <p className='modal-text mt-4'>LOGIN</p>
+                    <input className='modal-input col-md-10 text-center' id="login" type="text" name="login" onChange={(e) => setCreatePasswordLogin(e.target.value)}/>
+                    <p className='modal-text mt-4'>PASSWORD</p>
+                    <input className='modal-input col-md-10 text-center' id="password" type="text" name="password" onChange={(e) => setCreatePasswordPassword(e.target.value)}/>
+                    <button className='account-button col-md-4 mt-5' onClick={createPassword}>Create</button>
                 </div>
             </div>
             <div className='mt-auto'>
