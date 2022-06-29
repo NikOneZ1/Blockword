@@ -147,24 +147,6 @@ const BlockwordApp = () => {
         });
     }
 
-    const setDecryptedPassword = (index, password, ) => {
-        let account_list_copy = [...passwordAccounts];
-        console.log(account_list_copy);
-        let account_copy = [...account_list_copy[index]];
-        account_copy[2] = password;
-        account_list_copy[index] = account_copy;
-        setPasswordAccounts(account_list_copy);
-    }
-
-    const setDecryptedLogin = (index, login, ) => {
-        let account_list_copy = [...passwordAccounts];
-        console.log(account_list_copy);
-        let account_copy = [...account_list_copy[index]];
-        account_copy[1] = login;
-        account_list_copy[index] = account_copy;
-        setPasswordAccounts(account_list_copy);
-    }
-
     const setDecryptedData = (login, password, index) => {
         let account_list_copy = [...passwordAccounts];
         let account_copy = [...account_list_copy[index]];
@@ -190,8 +172,6 @@ const BlockwordApp = () => {
 
     // TODO implement search function
 
-    // TODO implement encryption and decryption functions
-
     const createPassword = async () => {
         setShowMessage(true);
         setMessageText('Your password will be added after a successful transaction');
@@ -212,7 +192,6 @@ const BlockwordApp = () => {
             setMessageText('An error occurred while processing the transaction');
             setShowMessage(true);
         });
-        // TODO encrypt password before creating
         // TODO add form validation
     }
   
