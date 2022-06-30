@@ -250,3 +250,11 @@ button:disabled {
   font-size: 20px;
   line-height: 30px;
 }
+
+.copy-text {
+  cursor: pointer;
+}
+
+.copy-text:active {
+  opacity: 0.8;
+}

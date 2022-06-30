@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Web3 from 'web3';
 import plus from '../media/plus.svg';
+import copy from '../media/copy.svg';
 import Footer from '../components/footer';
 import AppHeader from '../components/app_header';
 import MetaMaskOnboarding from '@metamask/onboarding';
@@ -215,8 +216,14 @@ const BlockwordApp = () => {
                         {passwordAccounts.slice(0, Math.ceil(passwordAccounts.length/2)).map((account, index) => 
                             <div className='account col-md-7 ms-auto' key={index}>
                                 <p className='text-center account-name'>{account[0]}</p>
-                                <p className='account-text'>login: {account[1]}</p>
-                                <p className='account-text mb-4'>password: {account[2]}</p>
+                                <p className='account-text copy-text' onClick={() => {navigator.clipboard.writeText(account[1])}}>
+                                    <img src={copy} alt='copy' style={{width: "30px"}}></img>
+                                    login: {account[1]}
+                                </p>
+                                <p className='account-text copy-text mb-4' onClick={() => {navigator.clipboard.writeText(account[2])}}>
+                                    <img src={copy} alt='copy' style={{width: "30px"}}></img>
+                                    password: {account[2]}
+                                </p>
                                 <div className='row justify-content-md-center'>
                                     <button className='account-button col-md-4 me-2' onClick={() => {decryptData(account[1], account[2], index)}}>Get</button>
                                     <button className='account-button col-md-4 ms-2'>Update</button>
@@ -232,8 +239,14 @@ const BlockwordApp = () => {
                         {passwordAccounts.slice(Math.ceil(passwordAccounts.length/2), passwordAccounts.length).map((account, index) =>
                             <div className='account col-md-7' key={index}>
                                 <p className='text-center account-name'>{account[0]}</p>
-                                <p className='account-text'>login: {account[1]}</p>
-                                <p className='account-text mb-4'>password: {account[2]}</p>
+                                <p className='account-text copy-text' onClick={() => {navigator.clipboard.writeText(account[1])}}>
+                                    <img src={copy} alt='copy' style={{width: "30px"}}></img>
+                                    login: {account[1]}
+                                </p>
+                                <p className='account-text copy-text mb-4' onClick={() => {navigator.clipboard.writeText(account[2])}}>
+                                    <img src={copy} alt='copy' style={{width: "30px"}}></img>
+                                    password: {account[2]}
+                                </p>
                                 <div className='row justify-content-md-center'>
                                     <button className='account-button col-md-4 me-2' onClick={() => {decryptData(account[1], account[2], Math.ceil(passwordAccounts.length/2)+index)}}>Get</button>
                                     <button className='account-button col-md-4 ms-2'>Update</button>
