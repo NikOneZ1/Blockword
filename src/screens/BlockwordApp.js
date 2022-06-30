@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Web3 from 'web3';
 import plus from '../media/plus.svg';
 import copy from '../media/copy.svg';
+import cross from '../media/cross.svg';
 import Footer from '../components/footer';
 import AppHeader from '../components/app_header';
 import MetaMaskOnboarding from '@metamask/onboarding';
@@ -270,6 +271,20 @@ const BlockwordApp = () => {
         });
         // TODO add form validation
     }
+    
+    const deleteAccount = async (index) => {
+        setShowMessage(true);
+        setMessageText('Your password will be deleted after a successful transaction');
+        let result = await blockword_contract.methods.delete_account(index).send({ from: account })
+        .on("receipt", function(receipt) {
+            blockword_contract.methods.get_accounts(account).call().then(result => filterAccounts(result));
+        })
+        .on("error", function(error) {
+            //setMessageText('An error occurred while processing the transaction');
+            //setShowMessage(true);
+        });
+        // TODO add form validation
+    }
   
     return (
         <div className="container-fluid d-flex flex-column min-vh-100" style={{padding: "0px"}}>
@@ -287,7 +302,11 @@ const BlockwordApp = () => {
                     <div className='col-md-6'>
                         {passwordAccounts.slice(0, Math.ceil(passwordAccounts.length/2)).map((account, index) => 
                             <div className='account col-md-7 ms-auto' key={index}>
-                                <p className='text-center account-name'>{account[0]}</p>
+                                <div className='row align-items-center justify-content-end'>
+                                    <p className='text-center account-name col-md-8'>{account[0]}</p>
+                                    <img className='col-md-2 delete-cross' src={cross} alt='delete' onClick={() => {deleteAccount(account[3])}} style={{width: '50px', 
+                                        height: '50px', marginBottom: '20px', marginRight: '10px', cursor: 'pointer'}}></img>
+                                </div>
                                 <p className='account-text copy-text' onClick={() => {navigator.clipboard.writeText(account[1])}}>
                                     <img src={copy} alt='copy' style={{width: "30px"}}></img>
                                     login: {account[1]}
@@ -310,7 +329,11 @@ const BlockwordApp = () => {
                     <div className='col-md-6'>
                         {passwordAccounts.slice(Math.ceil(passwordAccounts.length/2), passwordAccounts.length).map((account, index) =>
                             <div className='account col-md-7' key={index}>
-                                <p className='text-center account-name'>{account[0]}</p>
+                                <div className='row align-items-center justify-content-end'>
+                                    <p className='text-center account-name col-md-8'>{account[0]}</p>
+                                    <img className='col-md-2 delete-cross' src={cross} alt='delete' onClick={() => {deleteAccount(account[3])}} style={{width: '50px', 
+                                        height: '50px', marginBottom: '20px', marginRight: '10px', cursor: 'pointer'}}></img>
+                                </div>
                                 <p className='account-text copy-text' onClick={() => {navigator.clipboard.writeText(account[1])}}>
                                     <img src={copy} alt='copy' style={{width: "30px"}}></img>
                                     login: {account[1]}

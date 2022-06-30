@@ -258,3 +258,11 @@ button:disabled {
 .copy-text:active {
   opacity: 0.8;
 }
+
+.delete-cross:hover {
+  opacity: 0.8;
+}
+
+.delete-cross:active {
+  transform: scale(0.95);
+}
