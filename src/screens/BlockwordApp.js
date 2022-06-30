@@ -154,6 +154,9 @@ const BlockwordApp = () => {
         account_copy[2] = password;
         account_list_copy[index] = account_copy;
         setPasswordAccounts(account_list_copy);
+        setCreatePasswordLogin('');
+        setCreatePasswordName('');
+        setCreatePasswordPassword('');
     }
 
     const decryptPassword = async (decrypted_login, password, index) => {
