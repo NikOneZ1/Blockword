@@ -21,6 +21,9 @@ const BlockwordApp = () => {
     const [showMessage, setShowMessage] = useState(false);
     const [messageText, setMessageText] = useState('');
     const [encryptionPublicKey, setEncryptionPublicKey] = useState('');
+    const [showUpdateModal, setShowUpdateModal] = useState(false);
+    const [encryptionUpdatePublicKey, setEncryptionUpdatePublicKey] = useState('');
+    const [indexUpdate, setIndexUpdate] = useState('');
 
     useEffect(() => {
         const onClickInstall = () => {
@@ -32,13 +35,23 @@ const BlockwordApp = () => {
         };
 
         const filterAccounts = accounts => {
-            accounts = [...accounts];
-            for( var i = 0; i < accounts.length; i++){ 
-                if (accounts[i][0] === '' && accounts[i][1] === '') {
-                    accounts.splice(i, 1);
+            let accounts_copy = [...accounts];
+            let delete_list = [];
+            for( var i = 0; i < accounts_copy.length; i++){
+                let account_copy = [...accounts_copy[i]];
+                account_copy.push(i);
+                accounts_copy[i] = account_copy;
+                if (accounts_copy[i][0] === '' || accounts_copy[i][1] === '' || accounts_copy[i][2] === '') {
+                    delete_list.push(i);
                 }
-                setPasswordAccounts(accounts);
             }
+            for( var c = 0; c < delete_list.length; c++){
+                accounts_copy.splice(delete_list[c], 1);
+                for (var j = 0; j < delete_list.length; j++){
+                    delete_list[j]--;
+                }
+            }
+            setPasswordAccounts(accounts_copy);
         }
 
         const checkMetamask = () => {
@@ -80,6 +93,12 @@ const BlockwordApp = () => {
             createPassword();
         }
     }, [encryptionPublicKey])
+
+    useEffect(() => {
+        if (encryptionUpdatePublicKey) {
+            updatePassword();
+        }
+    }, [encryptionUpdatePublicKey])
 
     const isMetaMaskInstalled = () => {
         const { ethereum } = window;
@@ -130,19 +149,47 @@ const BlockwordApp = () => {
         }
     }
 
-    const filterAccounts = accounts => {
-        accounts = [...accounts];
-        for( var i = 0; i < accounts.length; i++){ 
-            if (accounts[i][0] === '' && accounts[i][1] === '') {
-                accounts.splice(i, 1);
-            }
-            setPasswordAccounts(accounts);
+    const showHideUpdateModal = (index=false) => {
+        setIndexUpdate(index);
+        setShowUpdateModal(!showUpdateModal);
+        if(!showUpdateModal) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "visible";
         }
+    }
+
+    const filterAccounts = accounts => {
+        let accounts_copy = [...accounts];
+        let delete_list = [];
+        for( var i = 0; i < accounts_copy.length; i++){
+            let account_copy = [...accounts_copy[i]];
+            account_copy.push(i);
+            accounts_copy[i] = account_copy;
+            if (accounts_copy[i][0] === '' || accounts_copy[i][1] === '' || accounts_copy[i][2] === '') {
+                delete_list.push(i);
+            }
+        }
+        for( var c = 0; c < delete_list.length; c++){
+            accounts_copy.splice(delete_list[c], 1);
+            for (var j = 0; j < delete_list.length; j++){
+                delete_list[j]--;
+            }
+        }
+        setPasswordAccounts(accounts_copy);
     }
     
     const getEncryptionPublicKey = async () => {
         await window.ethereum.request({method: 'eth_getEncryptionPublicKey', params: [account]}).then((result) => {
             setEncryptionPublicKey(result);
+        }).catch((error) => {
+            return false;
+        });
+    }
+
+    const getEncryptionUpdatePublicKey = async () => {
+        await window.ethereum.request({method: 'eth_getEncryptionPublicKey', params: [account]}).then((result) => {
+            setEncryptionUpdatePublicKey(result);
         }).catch((error) => {
             return false;
         });
@@ -155,9 +202,6 @@ const BlockwordApp = () => {
         account_copy[2] = password;
         account_list_copy[index] = account_copy;
         setPasswordAccounts(account_list_copy);
-        setCreatePasswordLogin('');
-        setCreatePasswordName('');
-        setCreatePasswordPassword('');
     }
 
     const decryptPassword = async (decrypted_login, password, index) => {
@@ -179,6 +223,9 @@ const BlockwordApp = () => {
     const createPassword = async () => {
         setShowMessage(true);
         setMessageText('Your password will be added after a successful transaction');
+        setCreatePasswordName('');
+        setCreatePasswordLogin('');
+        setCreatePasswordPassword('');
         showHideAddModal();
         let encrypted_password = bufferToHex(Buffer.from(JSON.stringify(
                 encrypt({publicKey: encryptionPublicKey, data: createPasswordPassword, version: 'x25519-xsalsa20-poly1305'})
@@ -190,11 +237,36 @@ const BlockwordApp = () => {
         let result = await blockword_contract.methods.pay_set_account(createPasswordName, encrypted_login, encrypted_password).send({ from: account, value: price })
         .on("receipt", function(receipt) {
             blockword_contract.methods.get_accounts(account).call().then(result => filterAccounts(result));
-            showHideAddModal();
         })
         .on("error", function(error) {
-            setMessageText('An error occurred while processing the transaction');
-            setShowMessage(true);
+            //setMessageText('An error occurred while processing the transaction');
+            //setShowMessage(true);
+        });
+        // TODO add form validation
+    }
+
+
+    const updatePassword = async () => {
+        setShowMessage(true);
+        setMessageText('Your password will be added after a successful transaction');
+        setCreatePasswordName('');
+        setCreatePasswordLogin('');
+        setCreatePasswordPassword('');
+        showHideUpdateModal();
+        let encrypted_password = bufferToHex(Buffer.from(JSON.stringify(
+                encrypt({publicKey: encryptionUpdatePublicKey, data: createPasswordPassword, version: 'x25519-xsalsa20-poly1305'})
+            ), 'utf8'));
+        let encrypted_login = bufferToHex(Buffer.from(JSON.stringify(
+                encrypt({publicKey: encryptionUpdatePublicKey, data: createPasswordLogin, version: 'x25519-xsalsa20-poly1305'})
+            ), 'utf8'));
+        setEncryptionUpdatePublicKey(false);
+        let result = await blockword_contract.methods.pay_update_account(indexUpdate, createPasswordName, encrypted_login, encrypted_password).send({ from: account, value: price })
+        .on("receipt", function(receipt) {
+            blockword_contract.methods.get_accounts(account).call().then(result => filterAccounts(result));
+        })
+        .on("error", function(error) {
+            //setMessageText('An error occurred while processing the transaction');
+            //setShowMessage(true);
         });
         // TODO add form validation
     }
@@ -226,7 +298,7 @@ const BlockwordApp = () => {
                                 </p>
                                 <div className='row justify-content-md-center'>
                                     <button className='account-button col-md-4 me-2' onClick={() => {decryptData(account[1], account[2], index)}}>Get</button>
-                                    <button className='account-button col-md-4 ms-2'>Update</button>
+                                    <button className='account-button col-md-4 ms-2' onClick={() => {showHideUpdateModal(account[3])}}>Update</button>
                                 </div>
                             </div>
                         )}
@@ -249,7 +321,7 @@ const BlockwordApp = () => {
                                 </p>
                                 <div className='row justify-content-md-center'>
                                     <button className='account-button col-md-4 me-2' onClick={() => {decryptData(account[1], account[2], Math.ceil(passwordAccounts.length/2)+index)}}>Get</button>
-                                    <button className='account-button col-md-4 ms-2'>Update</button>
+                                    <button className='account-button col-md-4 ms-2' onClick={() => {showHideUpdateModal(account[3])}}>Update</button>
                                 </div>
                             </div>
                         )}
@@ -276,6 +348,24 @@ const BlockwordApp = () => {
                     <p className='modal-text mt-4'>PASSWORD</p>
                     <input className='modal-input col-md-10 text-center' id="password" type="text" name="password" onChange={(e) => setCreatePasswordPassword(e.target.value)}/>
                     <button className='account-button col-md-4 mt-5' onClick={getEncryptionPublicKey}>Create</button>
+                </div>
+            </div>
+            <div className='overlay' onClick={showHideUpdateModal} style={showUpdateModal === true ?
+                {display: "block"} :
+                {display: "none"}
+            }></div>
+            <div className={showUpdateModal ===true ? 'add-modal col-md-4 d-flex justify-content-center' : ''} id="add-modal" style={showUpdateModal === true ?
+                {display: "block"} :
+                {display: "none"}
+            }>
+                <div className='col-md-10 mt-5 mb-5 text-center'>
+                    <p className='modal-text'>NAME</p>
+                    <input className='modal-input col-md-10 text-center' id="name" type="text" name="name" onChange={(e) => setCreatePasswordName(e.target.value)}/>
+                    <p className='modal-text mt-4'>LOGIN</p>
+                    <input className='modal-input col-md-10 text-center' id="login" type="text" name="login" onChange={(e) => setCreatePasswordLogin(e.target.value)}/>
+                    <p className='modal-text mt-4'>PASSWORD</p>
+                    <input className='modal-input col-md-10 text-center' id="password" type="text" name="password" onChange={(e) => setCreatePasswordPassword(e.target.value)}/>
+                    <button className='account-button col-md-4 mt-5' onClick={(getEncryptionUpdatePublicKey)}>Update</button>
                 </div>
             </div>
             <div className='mt-auto'>
