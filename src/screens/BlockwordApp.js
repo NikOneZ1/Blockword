@@ -215,10 +215,6 @@ const BlockwordApp = () => {
         decryptPassword(decryptedMessage, password, index)).catch((error) => console.log(error.message));
     }
 
-    // TODO implement update function
-
-    // TODO implement delete function
-
     // TODO implement search function
 
     const createPassword = async () => {
@@ -285,10 +281,14 @@ const BlockwordApp = () => {
         });
         // TODO add form validation
     }
+
+    const search = value => {
+        console.log(value)
+    }
   
     return (
         <div className="container-fluid d-flex flex-column min-vh-100" style={{padding: "0px"}}>
-            <AppHeader/>
+            <AppHeader search={search}/>
             {showMessage &&
             <div className='row justify-content-center'>
                 <div className="alert d-flex flex-wrap align-items-center justify-content-beetween alert-warning alert-dismissible fade show col-md-8 mt-1" style={{backgroundColor: "black", color: "white", border: "0px", borderRadius: '15px'}}>

@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const AppHeader = (props) => {
     const search = value => {
-        console.log(value);
+        props.search(value);
     }
     return(
         <div className='container-fluid header' style={{padding: "0px"}}>
