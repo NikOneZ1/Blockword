@@ -4,14 +4,12 @@ html{
   font-family: 'Source Sans Pro';
 }
 
-/* Remove on app release*/
 .header-button {
   opacity: 0.8;
 }
 .header-button:active {
   transform: scale(1);
 }
-/***********************/
 
 .search-field {
   background: #FFFFFF;
