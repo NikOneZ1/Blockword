@@ -160,7 +160,7 @@ const BlockwordApp = () => {
         }
     }
 
-    const filterAccounts = accounts => {
+    const filterAccounts = (accounts, searchTerm=false) => {
         let accounts_copy = [...accounts];
         let delete_list = [];
         for( var i = 0; i < accounts_copy.length; i++){
@@ -177,7 +177,17 @@ const BlockwordApp = () => {
                 delete_list[j]--;
             }
         }
-        setPasswordAccounts(accounts_copy);
+        if (searchTerm) {
+            let search_list = [];
+            for (var k = 0; k < accounts_copy.length; k++) {
+                if (accounts_copy[k][0].toLowerCase().includes(searchTerm.toLowerCase())) {
+                    search_list.push(accounts_copy[k]);
+                }
+            }
+            setPasswordAccounts(search_list);
+        } else {
+            setPasswordAccounts(accounts_copy);
+        }
     }
     
     const getEncryptionPublicKey = async () => {
@@ -231,7 +241,7 @@ const BlockwordApp = () => {
                 encrypt({publicKey: encryptionPublicKey, data: createPasswordLogin, version: 'x25519-xsalsa20-poly1305'})
             ), 'utf8'));
         setEncryptionPublicKey(false);
-        let result = await blockword_contract.methods.pay_set_account(createPasswordName, encrypted_login, encrypted_password).send({ from: account, value: price })
+        await blockword_contract.methods.pay_set_account(createPasswordName, encrypted_login, encrypted_password).send({ from: account, value: price })
         .on("receipt", function(receipt) {
             blockword_contract.methods.get_accounts(account).call().then(result => filterAccounts(result));
         })
@@ -257,7 +267,7 @@ const BlockwordApp = () => {
                 encrypt({publicKey: encryptionUpdatePublicKey, data: createPasswordLogin, version: 'x25519-xsalsa20-poly1305'})
             ), 'utf8'));
         setEncryptionUpdatePublicKey(false);
-        let result = await blockword_contract.methods.pay_update_account(indexUpdate, createPasswordName, encrypted_login, encrypted_password).send({ from: account, value: price })
+        await blockword_contract.methods.pay_update_account(indexUpdate, createPasswordName, encrypted_login, encrypted_password).send({ from: account, value: price })
         .on("receipt", function(receipt) {
             blockword_contract.methods.get_accounts(account).call().then(result => filterAccounts(result));
         })
@@ -271,7 +281,7 @@ const BlockwordApp = () => {
     const deleteAccount = async (index) => {
         setShowMessage(true);
         setMessageText('Your password will be deleted after a successful transaction');
-        let result = await blockword_contract.methods.delete_account(index).send({ from: account })
+        await blockword_contract.methods.delete_account(index).send({ from: account })
         .on("receipt", function(receipt) {
             blockword_contract.methods.get_accounts(account).call().then(result => filterAccounts(result));
         })
@@ -283,7 +293,7 @@ const BlockwordApp = () => {
     }
 
     const search = value => {
-        console.log(value)
+        blockword_contract.methods.get_accounts(account).call().then(result => filterAccounts(result, value));
     }
   
     return (
