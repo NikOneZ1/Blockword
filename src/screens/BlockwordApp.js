@@ -225,7 +225,6 @@ const BlockwordApp = () => {
         decryptPassword(decryptedMessage, password, index)).catch((error) => console.log(error.message));
     }
 
-    // TODO implement search function
 
     const createPassword = async () => {
         setShowMessage(true);
