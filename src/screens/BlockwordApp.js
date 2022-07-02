@@ -297,6 +297,7 @@ const BlockwordApp = () => {
                 </div>
             </div>
             }
+            {account ?
             <div className='container' id='app-page'>
                 <div className='row mt-3'>
                     <div className='col-md-6'>
@@ -355,6 +356,9 @@ const BlockwordApp = () => {
                     </div>
                 </div>
             </div>
+            : 
+            <p className='main-page-header-text' style={{top: "50%", left: "50%", position: "absolute", transform: "translate(-50%, -50%)"}}>Connect your metamask wallet</p>
+            }
             <div className='overlay' onClick={showHideAddModal} style={showAddModal === true ?
                 {display: "block"} :
                 {display: "none"}
