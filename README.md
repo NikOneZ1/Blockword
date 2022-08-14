@@ -1,6 +1,8 @@
 # Blockword
 Blockword is web3 application for password managing. Application uses crypto wallet to encrypt and decrypt your passwords. All data saves in blockhain that is the safest place for your passwords.
 
+ Нou can try it on this link: https://blockword.herokuapp.com/
+
 ## How to deploy and test Blockword smart contract
 Install python dependencies (you must have poetry installed)
 ```
